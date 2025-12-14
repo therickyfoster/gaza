@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Mycelial Interfaith Constellation • Gentle Convergence Blueprint</title>
+  <meta name="description" content="A softly signaled, mycelial interfaith collaboration: many traditions, many paths, one living network. Constellation parallax, HUD tools, IndexedDB notes, TLK chat (collapsed), gamified mnemonics, and opt-in milestone signals. Extrasuperficial, non-coercive hints toward a compassionate merger of efforts—never of identities."/>
+  <meta name="theme-color" content="#070b14"/>
+
+  <!-- =========================================================================
+     ZERO HARM • INTERFAITH SAFETY PLEDGE
+     - Voluntary participation. No proselytizing. No coercion or pressure.
+     - Full freedom of conscience; opt-out honored instantly and silently.
+     - Sacred texts and symbols remain in the care of their communities.
+     - Shared work ≠ erasure of difference. Merge efforts, not identities.
+     ==========================================================================
+     Scripts (not required, optional future use):
+     // github.com/planetaryrestorationarchive/scripts
+     // planetaryrestorationarchive.com/scripts/interfaith.js
+  -->
+
+  <style>
+    :root{
+      --ink:#e8f4ff; --muted:#a7bed1; --bg:#070b14; --line:rgba(255,255,255,.1);
+      --acc:#7fe3c7; --gold:#ffd36e; --rose:#ffb3c1; --ok:#76f3a0; --warn:#ff6b6b;
+      --shadow:0 10px 40px rgba(0,0,0,.45); --radius:18px; --blur:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;color:var(--ink);background:var(--bg);overflow-x:hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";}
+    a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
+
+    /* Parallax canvases */
+    #stars,#constel{position:fixed; inset:0; z-index:-2; background:radial-gradient(1200px 1200px at 70% -10%, #122042 0%, transparent 60%)}
+    #constel{z-index:-1; mix-blend-mode:screen}
+
+    header{position:sticky; top:0; backdrop-filter: blur(var(--blur));
+      background: linear-gradient(180deg, rgba(7,11,20,.75), rgba(7,11,20,.25)); border-bottom:1px solid var(--line); z-index:5}
+    .brand{display:flex; align-items:center; gap:14px; padding:14px 6px}
+    .brand h1{margin:0; font-weight:700; font-size:clamp(18px,2.4vw,28px)}
+    .hud-badges{margin-left:auto; display:flex; gap:10px; align-items:center}
+    .chip{border:1px solid var(--line); padding:6px 10px; border-radius:999px; font-size:12px; background:rgba(255,255,255,.04)}
+
+    .wrap{min-height:100%; padding:clamp(16px,4vw,36px)}
+    .accordion{max-width:1200px; margin:22px auto}
+    details{background:linear-gradient(180deg,rgba(17,26,47,.75),rgba(13,23,45,.6)); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); margin:14px 0; overflow:hidden}
+    summary{cursor:pointer; list-style:none; padding:18px 20px; display:flex; align-items:center; gap:12px; font-weight:600}
+    summary::-webkit-details-marker{display:none}
+    summary:after{content:"▸"; margin-left:auto; transition:transform .2s ease}
+    details[open] summary:after{transform:rotate(90deg)}
+    .content{padding:0 20px 20px; line-height:1.6}
+    h2{font-size:clamp(18px,2vw,24px); margin:10px 0 6px}
+    h3{font-size:clamp(16px,1.7vw,20px); margin:16px 0 8px}
+    p{margin:.6rem 0}
+    .grid{display:grid; gap:14px}
+    .cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media (max-width:900px){.cols-2,.cols-3{grid-template-columns:1fr}}
+    .card{background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:14px; padding:14px}
+    .muted{color:var(--muted)}
+    .tip{border-left:3px solid var(--acc); padding:10px 12px; background:rgba(127,227,199,.06); border-radius:10px}
+    .ok{border-left:3px solid var(--ok); background:rgba(118,243,160,.06)}
+    .warn{border-left:3px solid var(--warn); background:rgba(255,107,107,.06)}
+    table{width:100%; border-collapse:collapse; border:1px solid var(--line); border-radius:12px; overflow:hidden}
+    th,td{padding:10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top}
+    th{background:rgba(255,255,255,.04); font-weight:700}
+    code,pre{background:rgba(255,255,255,.06); padding:3px 6px; border-radius:8px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    footer{margin:40px 0 80px; text-align:center; color:var(--muted)}
+
+    /* HUD */
+    .hud{position:fixed; right:16px; bottom:16px; z-index:6; display:flex; flex-direction:column; gap:10px; align-items:flex-end}
+    .hud .panel{width:min(92vw, 420px); max-height:60vh; overflow:auto; background:rgba(12,20,40,.92);
+      border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); display:none}
+    .hud .panel.active{display:block}
+    .hud .toolbar{display:flex; gap:8px}
+    .btn{border:1px solid var(--line); background:linear-gradient(180deg,#152243,#0f1a33); color:var(--ink); padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:600}
+    .btn:hover{filter:brightness(1.15)}
+    .btn.ghost{background:rgba(255,255,255,.04)}
+    .kv{display:flex; justify-content:space-between; gap:10px; border-bottom:1px dashed var(--line); padding:6px 0; font-size:14px}
+
+    /* TLK chat (collapsed) */
+    .chatWrap{position:fixed; left:16px; bottom:16px; z-index:5}
+    .chatFrame{display:none; width:min(92vw,500px); height:min(70vh,520px); border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:var(--shadow)}
+    .chatToggle{padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.04); cursor:pointer}
+
+    /* Tooltips */
+    [data-tip]{position:relative}
+    [data-tip]::after{content:attr(data-tip); position:absolute; left:50%; bottom:120%; transform:translateX(-50%);
+      background:#0f1a33; color:var(--ink); padding:6px 8px; border:1px solid var(--line); border-radius:8px; opacity:0; pointer-events:none; transition:.15s; white-space:nowrap; font-size:12px}
+    [data-tip]:hover::after{opacity:1}
+  </style>
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <canvas id="constel" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <radialGradient id="g" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#7fe3c7"/><stop offset="100%" stop-color="#1a2d53"/>
+          </radialGradient>
+        </defs>
+        <circle cx="32" cy="32" r="28" fill="url(#g)"/>
+        <path d="M10 34c10 2 16 10 22 4s8-18 22-20" stroke="#e8f4ff" stroke-opacity=".7" stroke-width="2" fill="none"/>
+      </svg>
+      <h1>Mycelial Interfaith Constellation</h1>
+      <div class="hud-badges">
+        <span class="chip" data-tip="Voluntary, non-coercive, rights-respecting">Zero-Harm</span>
+        <span class="chip" data-tip="Online-first, offline fallback">PWA</span>
+        <span class="chip" data-tip="Local notes & proofs">IndexedDB</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="accordion">
+
+      <details open>
+        <summary>Executive Overview</summary>
+        <div class="content">
+          <p><strong>Intent:</strong> Connect communities of faith like a living mycelial network—quiet threads, shared nourishment, distinct blossoms. The design <em>very gently and extrasuperficially</em> hints toward a <strong>merger of efforts</strong> (service, learning, care) while <em>protecting each tradition’s identity</em>. Think <em>federation</em>: many roots, one shared canopy of care.</p>
+          <div class="grid cols-3">
+            <div class="card"><h3>Metaphor</h3><p>Mycelium moves nutrients across species without asking leaves to change shape. Collaboration ≠ conversion.</p></div>
+            <div class="card"><h3>Practice</h3><p>Joint service, shared calendars, cross-ritual hospitality, sacred ecology, trauma-aware dialogue.</p></div>
+            <div class="card"><h3>Guardrails</h3><p>Freedom of conscience, consent, informed boundaries, opt-out at any time, no pressure tactics. </p></div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Mycelial Principles • Roots, Threads, Fruiting Bodies</summary>
+        <div class="content grid cols-3">
+          <div class="card">
+            <h3>Roots (Identity)</h3>
+            <ul>
+              <li>Texts, rites, and lineages remain intact.</li>
+              <li>Names, symbols, languages honored without dilution.</li>
+              <li>Right to difference is sacred and explicit.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Threads (Exchange)</h3>
+            <ul>
+              <li>Share surplus: kitchens, halls, buses, volunteers, tools.</li>
+              <li>Cross-train practical skills: mediation, first aid, grief care.</li>
+              <li>Resource commons: libraries, seed banks, mutual aid.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Fruiting (Public Work)</h3>
+            <ul>
+              <li>Joint service days (shelter, food, river cleanups).</li>
+              <li>Interfaith apprenticeships & chaplaincy co-placements.</li>
+              <li>Festival hospitality exchanges & shared art.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Collaboration Modules • Gentle Convergence</summary>
+        <div class="content grid cols-2">
+          <div class="card">
+            <h3>Ritual Reciprocity (opt-in)</h3>
+            <ul>
+              <li>“Open Door” hours: quiet observation without obligation.</li>
+              <li>Blessing exchanges: leaders offer a neutral well-wishing.</li>
+              <li>Calendar braiding: public events avoid conflicts; occasional co-hosting.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Service Weave</h3>
+            <ul>
+              <li>Food & water drives, elder visits, hospital rounds.</li>
+              <li>Climate & sacred ecology: tree plantings, watershed care.</li>
+              <li>Emergency mutual aid: sheltering, logistics, chaplaincy.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Learning Commons</h3>
+            <ul>
+              <li>Trauma-aware dialogue circles with certified facilitators.</li>
+              <li>Language & song exchanges; shared arts nights.</li>
+              <li>Shared ethics seminars on compassion, justice, stewardship.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Mycelial Kitchen (hospitality)</h3>
+            <ul>
+              <li>Rotating interfaith community meals (dietary laws respected).</li>
+              <li>Volunteer swapboard; accessible transport pooling.</li>
+              <li>Shared hygiene & care packs for unhoused neighbors.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Safeguards • Consent, Boundaries, Equity</summary>
+        <div class="content">
+          <div class="grid cols-2">
+            <div class="card ok">
+              <h3>Consent Protocol</h3>
+              <ul>
+                <li>Triple consent: personal, family/guardian where applicable, and community lead.</li>
+                <li>Clear “no questions” opt-out; no tracking beyond what’s needed for safety.</li>
+                <li>Ritual spaces: observe dress/food rules; secure storage for sacred objects.</li>
+              </ul>
+            </div>
+            <div class="card warn">
+              <h3>No-Pressure Policy</h3>
+              <ul>
+                <li>No proselytizing inside joint events.</li>
+                <li>No bait-and-switch invitations.</li>
+                <li>Report & remedy channel with restorative steps.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="muted">The “merger” here is a <em>merger of service</em>, not a merger of creeds. We hint with gestures—shared calendars, joint signatures on service outcomes—while protecting theological diversity.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Metrics & Verification • Fruit, Not Force</summary>
+        <div class="content grid cols-2">
+          <div class="card">
+            <h3>Community KPIs (Year 1)</h3>
+            <table>
+              <tr><th>Outcome</th><th>Indicator</th><th>Target</th><th>Verify</th></tr>
+              <tr><td>Shared service</td><td>Hours delivered</td><td>100k</td><td>Sign-in, consented logs</td></tr>
+              <tr><td>Hospitality</td><td>Meals shared</td><td>500k</td><td>Kitchen ledgers</td></tr>
+              <tr><td>Dialogue</td><td>Circles held</td><td>2k</td><td>Facilitator reports</td></tr>
+              <tr><td>Wellbeing</td><td>Self-rated calm ↑</td><td>+20%</td><td>Anonymous surveys</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <h3>Verification</h3>
+            <ul>
+              <li>Triangulate: host logs + independent stewards + anonymous feedback.</li>
+              <li>Hash daily CSV snapshots; publish tamper-evident proofs (no PII).</li>
+              <li>Red-flag loop: confidential channel → 72-hour review → restorative action.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>180-Day Roadmap • From Threads to Canopy</summary>
+        <div class="content grid cols-2">
+          <div class="card">
+            <h3>Days 0–30</h3>
+            <ul>
+              <li>Interfaith pledge & code of conduct; consent templates.</li>
+              <li>Shared calendar alpha; hospitality exchange roster.</li>
+              <li>Facilitator training (trauma-aware, de-escalation, grief care).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Days 31–180</h3>
+            <ul>
+              <li>Monthly service days; quarterly festival hospitality.</li>
+              <li>Dialogue circles; chaplaincy co-placements (opt-in).</li>
+              <li>Open dashboard of outcomes; independent ombud review.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Opt-in Signals (optional, non-custodial)</summary>
+        <div class="content">
+<pre class="mono">
+// Checkpoint-only ABI sketch (keep PII off-chain)
+[
+  {"name":"signalMilestone","type":"function","inputs":[
+    {"name":"track","type":"uint8"},       // 0=Service,1=Hospitality,2=Dialogue
+    {"name":"kpiHash","type":"bytes32"},   // SHA-256 of KPI snapshot JSON
+    {"name":"evidenceURI","type":"string"} // Off-chain report
+  ]},
+  {"name":"redFlag","type":"function","inputs":[
+    {"name":"code","type":"bytes32"},{"name":"note","type":"string"}]}
+]
+</pre>
+          <p class="muted">Signals acknowledge shared outcomes without touching doctrine.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Local Notes • Private to Your Device</summary>
+        <div class="content">
+          <p>Use the HUD → <strong>Notes</strong> to keep reflections, pledges, or event drafts in your browser (IndexedDB). Export JSON for safekeeping. Hash for a simple timestamped proof elsewhere.</p>
+        </div>
+      </details>
+
+      <!-- Hidden shim requested -->
+      <details style="display:none"><summary>extrasuperficial antideprenarrative inversion</summary><div class="content"><p>Embedded.</p></div></details>
+    </section>
+
+    <!-- HUD -->
+    <section class="hud">
+      <div class="toolbar">
+        <button class="btn" id="btnNotes" data-tip="Local drafts, hashing, export">Notes</button>
+        <button class="btn ghost" id="btnKPI" data-tip="Interfaith KPI scratchpad">KPI</button>
+        <button class="btn ghost" id="btnCmd" data-tip="Command palette [ / ]">/</button>
+      </div>
+
+      <div class="panel" id="panelNotes" aria-label="Notes Panel">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0c1428"><strong>Local Notes (IndexedDB)</strong></div>
+        <div style="padding:14px" class="grid">
+          <label>Title <input id="noteTitle" placeholder="e.g., Festival Hospitality Plan" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0c152e;color:var(--ink)"/></label>
+          <label>Content <textarea id="noteBody" rows="7" placeholder="Private reflections; stays on this device." style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0c152e;color:var(--ink)"></textarea></label>
+          <div class="grid cols-3">
+            <button class="btn" id="saveNote">Save</button>
+            <button class="btn ghost" id="exportNotes">Export JSON</button>
+            <button class="btn ghost" id="hashNote">SHA-256 Hash</button>
+          </div>
+          <div id="hashOut" class="mono muted"></div>
+          <h3 style="margin:10px 0 0">Saved</h3>
+          <div id="noteList" class="grid"></div>
+        </div>
+      </div>
+
+      <div class="panel" id="panelKPI" aria-label="KPI Panel">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0c1428"><strong>KPI Scratchpad</strong></div>
+        <div style="padding:14px" class="grid">
+          <div class="kv"><span>Service hours</span><input id="kpiService" type="number" min="0" step="1" style="width:120px" class="mono"/></div>
+          <div class="kv"><span>Meals shared</span><input id="kpiMeals" type="number" min="0" step="1" style="width:120px" class="mono"/></div>
+          <div class="kv"><span>Dialogue circles</span><input id="kpiCircles" type="number" min="0" step="1" style="width:120px" class="mono"/></div>
+          <div class="kv"><span>Self-rated calm %</span><input id="kpiCalm" type="number" min="0" step="0.1" style="width:120px" class="mono"/></div>
+          <button class="btn" id="saveKPI">Save KPI Snapshot</button>
+          <div id="kpiLog" class="grid"></div>
+        </div>
+      </div>
+
+      <div class="panel" id="panelCmd" aria-label="Command Panel">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0c1428"><strong>Command Palette</strong></div>
+        <div style="padding:14px">
+          <p class="muted">Shortcuts: <span class="mono">N</span> notes • <span class="mono">K</span> KPI • <span class="mono">/</span> palette • <span class="mono">C</span> chat • <span class="mono">S</span> save.</p>
+          <div class="grid cols-2">
+            <button class="btn" onclick="toggleChat(true)">Open Chat</button>
+            <button class="btn ghost" onclick="toggleChat(false)">Close Chat</button>
+          </div>
+          <div style="margin-top:10px" class="grid">
+            <button class="btn ghost" title="Pocket goals for quick recall" onclick="seedPocketGoals()">Load Pocket Goals</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collapsed TLK.io chat -->
+    <div class="chatWrap">
+      <button class="chatToggle" id="chatToggle" aria-expanded="false" aria-controls="chatFrame">Mycelial Interfaith Chat</button>
+      <div class="chatFrame" id="chatFrame">
+        <iframe src="https://tlk.io/mycelial-interfaith" title="TLK Chat" style="width:100%;height:100%;border:0;background:#0b1327;color:#fff"></iframe>
+      </div>
+    </div>
+
+    <footer>
+      <p>© Mycelial Interfaith Constellation • Merge service, not identities • Constellation build. Reuse allowed with attribution and non-weaponization.</p>
+    </footer>
+  </main>
+
+  <script>
+  /* ===== Parallax Starfield & Constellations ===== */
+  (function(){
+    const star=document.getElementById('stars'), constel=document.getElementById('constel');
+    const sctx=star.getContext('2d'), cctx=constel.getContext('2d');
+    let W,H,stars=[];
+    function resize(){ W=star.width=constel.width=innerWidth; H=star.height=constel.height=innerHeight; build(); }
+    function build(){
+      stars=[]; const N=Math.min(850,Math.floor(W*H/3000));
+      for(let i=0;i<N;i++) stars.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*2+.5,a:Math.random()*0.8+0.2});
+    }
+    let t=0; function draw(){
+      t+=.0025; sctx.clearRect(0,0,W,H);
+      for(const s of stars){
+        const tw=.5+.5*Math.sin(t*10+s.x*.01+s.y*.02);
+        sctx.fillStyle=`rgba(200,230,255,${s.a*tw})`;
+        sctx.beginPath(); sctx.arc(s.x,s.y,s.z,0,Math.PI*2); sctx.fill();
+      }
+      cctx.clearRect(0,0,W,H); cctx.strokeStyle='rgba(200,210,255,.22)'; cctx.lineWidth=1; cctx.beginPath();
+      for(let i=0;i<9;i++){
+        const px=(W*(i+1)/10)+20*Math.sin(t*2+i), py=(H*(i%2?2:1)/3)+18*Math.cos(t*3+i);
+        const qx=(W*(i+2)/10)+20*Math.cos(t*2+i*.7), qy=(H*((i+1)%2?2:1)/3)+18*Math.sin(t*2.2+i*.4);
+        cctx.moveTo(px,py); cctx.lineTo(qx,qy);
+      }
+      cctx.stroke();
+      requestAnimationFrame(draw);
+    }
+    addEventListener('resize',resize,{passive:true}); resize(); draw();
+    addEventListener('pointermove',e=>{
+      const dx=(e.clientX/W-.5)*10, dy=(e.clientY/H-.5)*10;
+      constel.style.transform=`translate(${dx}px,${dy}px)`;
+    },{passive:true});
+  })();
+
+  /* ===== HUD Panels & Shortcuts ===== */
+  const panelNotes=document.getElementById('panelNotes');
+  const panelKPI=document.getElementById('panelKPI');
+  const panelCmd=document.getElementById('panelCmd');
+  const btnNotes=document.getElementById('btnNotes');
+  const btnKPI=document.getElementById('btnKPI');
+  const btnCmd=document.getElementById('btnCmd');
+  function setPanel(p){[panelNotes,panelKPI,panelCmd].forEach(el=>el.classList.remove('active')); if(p)p.classList.add('active');}
+  btnNotes.onclick=()=>setPanel(panelNotes);
+  btnKPI.onclick=()=>setPanel(panelKPI);
+  btnCmd.onclick=()=>setPanel(panelCmd);
+  addEventListener('keydown',e=>{
+    if(e.key==='n'||e.key==='N') setPanel(panelNotes);
+    if(e.key==='k'||e.key==='K') setPanel(panelKPI);
+    if(e.key==='/') setPanel(panelCmd);
+    if(e.key==='s'||e.key==='S'){ e.preventDefault(); document.getElementById('saveNote').click(); }
+    if(e.key==='c'||e.key==='C') toggleChat();
+  });
+
+  /* ===== TLK Chat (collapsed) ===== */
+  const chatFrame=document.getElementById('chatFrame');
+  const chatToggle=document.getElementById('chatToggle');
+  function toggleChat(forceOpen){
+    const open=typeof forceOpen==='boolean'?forceOpen:chatFrame.style.display!=='block';
+    chatFrame.style.display=open?'block':'none';
+    chatToggle.setAttribute('aria-expanded',String(open));
+  }
+  chatToggle.onclick=()=>toggleChat();
+
+  /* ===== IndexedDB Notes + Hashing + KPI ===== */
+  const DB_NAME='mycelial_interfaith_local', DB_VER=1; let db=null;
+  function idb(){ return new Promise((res,rej)=>{
+    const req=indexedDB.open(DB_NAME,DB_VER);
+    req.onupgradeneeded=()=>{const d=req.result;
+      if(!d.objectStoreNames.contains('notes')) d.createObjectStore('notes',{keyPath:'id',autoIncrement:true});
+      if(!d.objectStoreNames.contains('kpi')) d.createObjectStore('kpi',{keyPath:'ts'});
+    };
+    req.onsuccess=()=>{db=req.result;res(db)}; req.onerror=()=>rej(req.error);
+  });}
+  function tx(store,mode='readonly'){return db.transaction(store,mode).objectStore(store)}
+  const noteTitle=document.getElementById('noteTitle'), noteBody=document.getElementById('noteBody'),
+        noteList=document.getElementById('noteList'), hashOut=document.getElementById('hashOut');
+
+  async function listNotes(){ await idb(); noteList.innerHTML='';
+    const req=tx('notes').openCursor(null,'prev');
+    req.onsuccess=e=>{
+      const cur=e.target.result; if(cur){
+        const n=cur.value, div=document.createElement('div'); div.className='card';
+        div.innerHTML=`<strong>${escapeHTML(n.title||'(untitled)')}</strong>
+          <div class="muted mono" style="font-size:12px">${new Date(n.ts||Date.now()).toLocaleString()}</div>
+          <p>${escapeHTML(n.body||'')}</p>
+          <div class="grid cols-3">
+            <button class="btn ghost" data-id="${n.id}" data-act="load">Load</button>
+            <button class="btn ghost" data-id="${n.id}" data-act="hash">Hash</button>
+            <button class="btn ghost" data-id="${n.id}" data-act="del">Delete</button>
+          </div>`;
+        noteList.appendChild(div); cur.continue();
+      }
+    };
+  }
+  document.getElementById('saveNote').onclick=async()=>{
+    await idb();
+    tx('notes','readwrite').put({title:noteTitle.value, body:noteBody.value, ts:Date.now()}).onsuccess=()=>{listNotes();toast('Note saved')};
+  };
+  noteList.addEventListener('click',async e=>{
+    const btn=e.target.closest('[data-act]'); if(!btn) return;
+    const id=Number(btn.dataset.id), act=btn.dataset.act; await idb();
+    if(act==='del'){ tx('notes','readwrite').delete(id).onsuccess=()=>{listNotes();toast('Deleted')}; }
+    else{ tx('notes').get(id).onsuccess=async ev=>{
+      const n=ev.target.result; if(!n) return;
+      if(act==='load'){ noteTitle.value=n.title||''; noteBody.value=n.body||''; toast('Loaded'); }
+      if(act==='hash'){ const h=await sha256(n.title+'\n'+n.body); hashOut.textContent='HASH '+h; toast('Hashed'); }
+    };}
+  });
+  document.getElementById('exportNotes').onclick=async()=>{
+    await idb(); const all=[];
+    tx('notes').openCursor().onsuccess=e=>{
+      const cur=e.target.result; if(cur){ all.push(cur.value); cur.continue(); }
+      else{
+        const blob=new Blob([JSON.stringify(all,null,2)],{type:'application/json'});
+        const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+        a.download='mycelial-interfaith-notes.json'; a.click(); URL.revokeObjectURL(a.href); toast('Exported');
+      }
+    };
+  };
+  document.getElementById('hashNote').onclick=async()=>{
+    const h=await sha256((noteTitle.value||'')+'\n'+(noteBody.value||'')); hashOut.textContent='HASH '+h;
+  };
+
+  const kpiInputs={
+    service:document.getElementById('kpiService'),
+    meals:document.getElementById('kpiMeals'),
+    circles:document.getElementById('kpiCircles'),
+    calm:document.getElementById('kpiCalm')
+  };
+  const kpiLog=document.getElementById('kpiLog');
+  document.getElementById('saveKPI').onclick=async()=>{
+    await idb();
+    const rec={ts:Date.now(),
+      service:Number(kpiInputs.service.value||0),
+      meals:Number(kpiInputs.meals.value||0),
+      circles:Number(kpiInputs.circles.value||0),
+      calm:Number(kpiInputs.calm.value||0)};
+    tx('kpi','readwrite').put(rec).onsuccess=()=>{renderKPI();toast('KPI snapshot saved')};
+  };
+  function renderKPI(){
+    kpiLog.innerHTML='';
+    tx('kpi').openCursor(null,'prev').onsuccess=e=>{
+      const cur=e.target.result; if(cur){
+        const r=cur.value, div=document.createElement('div'); div.className='card';
+        div.innerHTML=`<strong>${new Date(r.ts).toLocaleString()}</strong>
+          <div class="grid cols-3">
+            <div>Service hrs<br><strong>${r.service}</strong></div>
+            <div>Meals<br><strong>${r.meals}</strong></div>
+            <div>Circles<br><strong>${r.circles}</strong></div>
+          </div>
+          <div style="margin-top:6px">Calm % ↑<br><strong>${r.calm}</strong></div>`;
+        kpiLog.appendChild(div); cur.continue();
+      }
+    };
+  }
+
+  function escapeHTML(s){return (s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+  async function sha256(str){ const enc=new TextEncoder().encode(str); const h=await crypto.subtle.digest('SHA-256',enc); return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join(''); }
+  (async()=>{ await idb(); listNotes(); renderKPI(); })();
+
+  /* ===== Service Worker (inline) ===== */
+  (function(){
+    if(!('serviceWorker' in navigator)) return;
+    const sw=`const C='mycelial-interfaith-cache-v1';
+self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll([])).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(K=>Promise.all(K.map(k=>k!==C&&caches.delete(k)))))});
+self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;
+  e.respondWith(caches.match(r).then(hit=>hit||fetch(r).then(res=>{const copy=res.clone();caches.open(C).then(c=>c.put(r,copy));return res}).catch(()=>hit||new Response('',{status:200}))))});`;
+    const blob=new Blob([sw],{type:'text/javascript'}), url=URL.createObjectURL(blob);
+    navigator.serviceWorker.register(url).catch(()=>{}); setTimeout(()=>URL.revokeObjectURL(url), 10000);
+  })();
+
+  /* ===== Pocket Goals ===== */
+  function seedPocketGoals(){
+    noteTitle.value='Mycelial Interfaith – Pocket Goals';
+    noteBody.value=[
+      '- 100k service hours with informed consent and zero proselytizing',
+      '- 500k shared meals honoring dietary laws and customs',
+      '- 2,000 dialogue circles with certified facilitators',
+      '- Anonymous wellbeing self-ratings show ≥ +20% calm',
+      '- Public dashboard of outcomes; red-flag restorative loop'
+    ].join('\n');
+    toast('Pocket goals loaded');
+  }
+
+  /* ===== Toast mini ===== */
+  function toast(msg){
+    const d=document.createElement('div');
+    d.textContent=msg;
+    d.style.cssText='position:fixed;left:50%;top:20px;transform:translateX(-50%);background:rgba(12,20,40,.95);border:1px solid rgba(255,255,255,.12);color:#e8f4ff;padding:10px 14px;border-radius:12px;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.45)';
+    document.body.appendChild(d); setTimeout(()=>d.remove(),1600);
+  }
+
+  /* ===== Gamified Mnemonics ===== */
+  (function(){
+    const quests=[
+      {k:'ROOTS', t:'Name 3 “Roots” items', tip:'Texts, symbols, right to difference'},
+      {k:'THREADS', t:'Name 3 “Threads” actions', tip:'Share surplus, cross-train, commons'},
+      {k:'FRUIT', t:'Name 3 “Fruiting” works', tip:'Service day, chaplaincy, festival'},
+      {k:'SAFE', t:'Speak the no-pressure rule', tip:'No proselytizing, instant opt-out'}
+    ];
+    const key='mi-quests', prog=new Set(JSON.parse(localStorage.getItem(key)||'[]'));
+    const host=document.getElementById('panelCmd').querySelector('div.grid')||document.getElementById('panelCmd');
+    const wrap=document.createElement('div'); wrap.className='grid'; wrap.style.marginTop='10px';
+    quests.forEach(q=>{
+      const b=document.createElement('button'); b.className='btn ghost';
+      const done=prog.has(q.k); b.textContent=(done?'✓ ':'')+q.t; b.title=q.tip;
+      b.onclick=()=>{ if(!prog.has(q.k)){ prog.add(q.k); localStorage.setItem(key,JSON.stringify([...prog])); b.textContent='✓ '+q.t; toast('Quest noted'); } };
+      wrap.appendChild(b);
+    });
+    host.appendChild(wrap);
+  })();
+
+  /* ===== “extrasuperficial antideprenarrative inversion” (quiet) ===== */
+  (function(){
+    const triggers=/\b(?:hopeless|give up|pointless|no way out)\b/i; let buffer='';
+    addEventListener('keydown',e=>{
+      const ch=e.key.length===1?e.key:' '; buffer=(buffer+ch).slice(-120);
+      if(triggers.test(buffer)){
+        if(confirm('Pause & breathe? Open Notes with a gentle grounding prompt?')){
+          document.getElementById('btnNotes').click();
+          const nb=document.getElementById('noteBody');
+          nb.value=(nb.value||'')+'\nGrounding: 3 helps within reach • 3 allies • 3 steps in 24h.';
+        }
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

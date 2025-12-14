@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Norway × Taiwan Breakthrough Workforce Bridge • Foster + Navi</title>
+  <meta name="description" content="A logistics- and sponsorship-driven workforce bridge between Norway and Taiwan to hire at national scale for breakthrough sectors. Online-first PWA with parallax constellations, HUD, IndexedDB, and collapsed TLK chat."/>
+  <meta name="theme-color" content="#07101f"/>
+
+  <!-- =========================================================================
+    ZERO-HARM DECLARATION
+    Human-first, civilian-safe, non-weaponized. This page designs transparent,
+    ethical workforce pipelines: visas, training, housing, language, childcare,
+    and governance. It forbids coercion, discrimination, or retaliatory use.
+    ========================================================================= -->
+
+  <style>
+    :root{
+      --bg:#07101f; --bg2:#0c1a33; --ink:#e9f3ff; --muted:#9db4c9;
+      --line:rgba(255,255,255,.1); --glass:rgba(255,255,255,.06);
+      --acc:#7fe3c7; --acc2:#ffd36e; --ok:#79f199; --warn:#ffb86b; --bad:#ff6b6b;
+      --radius:18px; --blur:14px; --shadow:0 12px 44px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;color:var(--ink);background:var(--bg);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    a{color:var(--acc);text-decoration:none} a:hover{text-decoration:underline}
+    #stars,#constel{position:fixed;inset:0;z-index:-2}
+    #constel{z-index:-1;mix-blend-mode:screen}
+    header{position:sticky;top:0;z-index:5;backdrop-filter:blur(var(--blur));
+      background:linear-gradient(180deg,rgba(7,16,31,.88),rgba(7,16,31,.35));border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;gap:12px;padding:14px 12px}
+    .brand h1{margin:0;font-size:clamp(18px,2.2vw,28px);font-weight:800;letter-spacing:.2px}
+    .chips{margin-left:auto;display:flex;gap:8px}
+    .chip{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-size:12px}
+    .wrap{padding:clamp(16px,4vw,36px);max-width:1200px;margin:0 auto}
+    details{margin:14px 0;border:1px solid var(--line);border-radius:var(--radius);
+      background:linear-gradient(180deg,rgba(13,26,53,.85),rgba(12,22,46,.6));box-shadow:var(--shadow);overflow:hidden}
+    summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:700;display:flex;gap:12px;align-items:center}
+    summary::-webkit-details-marker{display:none}
+    summary:after{content:"▸";margin-left:auto;transition:transform .2s}
+    details[open] summary:after{transform:rotate(90deg)}
+    .content{padding:0 20px 20px}
+    h2{margin:10px 0 6px;font-size:clamp(18px,2vw,24px)} h3{margin:12px 0 8px;font-size:clamp(16px,1.8vw,20px)}
+    p{margin:.6rem 0;color:var(--ink)} .muted{color:var(--muted)}
+    .grid{display:grid;gap:14px} .cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .cols-3{grid-template-columns:repeat(3,minmax(0,1fr))} @media(max-width:900px){.cols-2,.cols-3{grid-template-columns:1fr}}
+    .card{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:14px;padding:14px}
+    .tip{border-left:3px solid var(--acc);background:rgba(127,227,199,.07);border-radius:10px;padding:10px 12px}
+    .warn{border-left:3px solid var(--bad);background:rgba(255,107,107,.07)} .ok{border-left:3px solid var(--ok);background:rgba(121,241,153,.07)}
+    table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+    th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    th{background:rgba(255,255,255,.05)}
+    code,pre{background:rgba(255,255,255,.06);padding:3px 6px;border-radius:8px}
+    footer{margin:40px 0 80px;text-align:center;color:var(--muted)}
+    /* HUD */
+    .hud{position:fixed;right:16px;bottom:16px;z-index:6;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+    .btn{border:1px solid var(--line);background:linear-gradient(180deg,#15264b,#0f1d39);color:var(--ink);padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:700}
+    .btn.ghost{background:rgba(255,255,255,.05)} .btn:hover{filter:brightness(1.12)}
+    .panel{display:none;width:min(92vw,440px);max-height:60vh;overflow:auto;background:rgba(10,18,36,.94);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+    .panel.active{display:block}
+    .kv{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding:6px 0;font-size:14px}
+    /* TLK chat collapsed */
+    .chatWrap{position:fixed;left:16px;bottom:16px;z-index:5}
+    .chatToggle{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05)}
+    .chatFrame{display:none;width:min(92vw,520px);height:min(70vh,540px);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+    /* Tooltips */
+    [data-tip]{position:relative}
+    [data-tip]::after{content:attr(data-tip);position:absolute;left:50%;bottom:120%;transform:translateX(-50%);opacity:0;pointer-events:none;background:#0f1d39;color:var(--ink);padding:6px 8px;border:1px solid var(--line);border-radius:8px;white-space:nowrap;font-size:12px;transition:.12s}
+    [data-tip]:hover::after{opacity:1}
+  </style>
+</head>
+<body>
+  <!-- Parallax canvases -->
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <canvas id="constel" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true">
+        <defs><radialGradient id="g" cx="50%" cy="35%" r="70%"><stop offset="0%" stop-color="#7fe3c7"/><stop offset="100%" stop-color="#1a2f5a"/></radialGradient></defs>
+        <circle cx="32" cy="32" r="28" fill="url(#g)"/>
+        <path d="M12 36c9 1 18 10 24 4s8-20 16-22" stroke="#e9f3ff" stroke-opacity=".75" stroke-width="2" fill="none"/>
+      </svg>
+      <h1>Norway × Taiwan Breakthrough Workforce Bridge</h1>
+      <div class="chips">
+        <span class="chip">Zero-Harm</span>
+        <span class="chip">Logistics-Led</span>
+        <span class="chip">PWA</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="accordion">
+
+      <details open>
+        <summary>Executive Overview</summary>
+        <div class="content">
+          <p><strong>Mission:</strong> Stand up a bilateral, logistics-backed sponsorship program—Norway ↔ Taiwan—that can <em>hire at national scale</em> for targeted breakthroughs (offshore wind, semiconductors, green shipping, subsea robotics, healthtech), with inclusive on-ramps for youth, displaced workers, and returning parents. You bring the passport and the Plaid; we’ll have lanes ready. 🛰️🚢⚙️</p>
+          <div class="grid cols-3">
+            <div class="card"><h3>Why these two?</h3><p>Rising <em>Norway–Taiwan</em> ties and energy tech collaboration create a ready corridor for skills and capital, with shared democratic alignment and complementary industrial strengths.</p></div>
+            <div class="card"><h3>How it scales</h3><p>Leverage <em>logistics firms</em>, ports, and training consortia as sponsors; run <em>visa-linked cohort intakes</em>; co-fund housing & childcare; and publish milestones to a transparent ledger.</p></div>
+            <div class="card"><h3>What’s different</h3><p>Operations-first: routes, cohorts, cap tables, vendor lists, and KPI dashboards—ready to fund and run.</p></div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Sector Targets & Hiring Lanes</summary>
+        <div class="content grid cols-3">
+          <div class="card">
+            <h3>Offshore Wind & Marine</h3>
+            <ul>
+              <li>Floating platforms, anti-corrosion, mooring, cable lay.</li>
+              <li>Joint R&D with MIRDC & Norwegian OEMs; pilot at Energy Taiwan seasons.</li>
+              <li>Cohorts: 1,000 techs/yr → 5,000/yr with stackable certs.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Semiconductors & Power Electronics</h3>
+            <ul>
+              <li>Ops techs, cleanroom maintenance, HV power, HVDC controls.</li>
+              <li>Exchange tracks: Kaohsiung/HSR hubs ↔ Trondheim/Oslo labs.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Green Shipping & Subsea Robotics</h3>
+            <ul>
+              <li>UUV/ROV maintenance, battery retrofits, ammonia bunkering safety.</li>
+              <li>Nordic shipyards + Taiwanese port authorities apprenticeship lanes.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Logistics-Backed Sponsorship Model</summary>
+        <div class="content">
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>Anchor Sponsors</h3>
+              <ul>
+                <li><strong>Port & logistics operators</strong> sponsor cohorts (visa paperwork, orientation, job match).</li>
+                <li><strong>Staffing agencies</strong> co-sponsor placements with guaranteed interviews on completion.</li>
+                <li><strong>OEMs & shipyards</strong> pre-book trainees → shift straight into production lines.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>What’s covered</h3>
+              <ul>
+                <li>Visa support & flights (cost-share), 90-day housing starter, transit passes.</li>
+                <li>Language bootcamps (Bokmål/English ↔ Mandarin), cultural onboarding, safety cards.</li>
+                <li>Childcare credits & relocation concierge to keep families intact.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>Transparency & Guardrails</h3>
+          <div class="tip">Cohort budgets, unit costs, and completion rates are published monthly. Red-flag path for any coercion, overwork, or unsafe housing; sponsors risk delisting if they breach.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Visa Pipelines & Cohort Rhythm</summary>
+        <div class="content grid cols-3">
+          <div class="card">
+            <h3>Quarterly Intakes</h3>
+            <p>Four standardized windows per year; 12-week core training; on-the-job modules stack to 1-year diploma.</p>
+          </div>
+          <div class="card">
+            <h3>Dual-Hub Processing</h3>
+            <p><strong>Oslo–Bergen–Trondheim</strong> intake centers ↔ <strong>Taipei–Kaohsiung–Taichung</strong> centers. Mirrored forms, shared queue dashboard.</p>
+          </div>
+          <div class="card">
+            <h3>Right to Return</h3>
+            <p>Workers retain the right to return home or switch tracks; no bonded labor structures permitted.</p>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Funding Mix & Accountability</summary>
+        <div class="content grid cols-2">
+          <div class="card">
+            <h3>Funding Stack</h3>
+            <ul>
+              <li>Corporate sponsorship (logistics, OEMs, ports) 40–60%.</li>
+              <li>National/municipal grants & EU-Nordic mechanisms where eligible 20–40%.</li>
+              <li>Tuition-free cohorts for priority groups; income-share disallowed.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Ledger & Audits</h3>
+            <ul>
+              <li>Monthly open ledger: cohort size, completion, placement, safety incidents (zero PII).</li>
+              <li>Independent audits pre-booked each quarter; summaries public.</li>
+              <li>Whistleblower channel with anti-retaliation and 48-hour triage.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>KPIs & Dashboards (copy-paste)</summary>
+        <div class="content">
+          <table>
+            <tr><th>Outcome</th><th>Indicator</th><th>Baseline</th><th>Target</th><th>Verify</th></tr>
+            <tr><td>Throughput</td><td>Cohort graduates/quarter</td><td>0</td><td>1,000 → 5,000</td><td>Roster+attestation</td></tr>
+            <tr><td>Placement</td><td>% employed in 90 days</td><td>—</td><td>≥ 85%</td><td>Contract logs</td></tr>
+            <tr><td>Safety</td><td>Recordable incidents / 100k hours</td><td>—</td><td>< 2.0</td><td>HSE logs</td></tr>
+            <tr><td>Retention</td><td>% still placed @ 12 mo</td><td>—</td><td>≥ 75%</td><td>Payroll attest</td></tr>
+            <tr><td>Equity</td><td>% priority group seats</td><td>—</td><td>≥ 35%</td><td>Cohort audit</td></tr>
+          </table>
+          <div class="ok tip">Public KPI snapshots are mirrored in the HUD → KPI panel and exportable for funders or ministries.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Playbook: Standing it up in 90 Days</summary>
+        <div class="content grid cols-3">
+          <div class="card">
+            <h3>Days 0–30 • Lanes & MOUs</h3>
+            <ul>
+              <li>Secure port & logistics anchors; sign cohort MOUs (seats, roles, stipends).</li>
+              <li>Confirm training vendors; publish syllabi (safety first).</li>
+              <li>Spin up dual intake sites; unify forms and queue tracker.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Days 31–60 • Cohort Build</h3>
+            <ul>
+              <li>Recruit & screen; language bootcamps; HSE certs.</li>
+              <li>Pre-assign apprenticeships; housing blocks reserved.</li>
+              <li>Issue logistics vouchers (transit, PPE, meals).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Days 61–90 • Deploy</h3>
+            <ul>
+              <li>Staggered travel; on-the-job rotations.</li>
+              <li>Weekly KPI publish; red-flag loop live.</li>
+              <li>Quarter closeout & funding rollover for next intake.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Governance & Conflict Sensitivity</summary>
+        <div class="content">
+          <ul>
+            <li>Neutral, civilian-safe language; do-no-harm screens for each site.</li>
+            <li>No political litmus tests. Immigration compliance, worker dignity, and informed consent are non-negotiable.</li>
+            <li>Data minimization, opt-in analytics; remove PII from public ledgers.</li>
+          </ul>
+          <div class="warn">Any hint of coercion, wage theft, unsafe housing, or bonded labor triggers sponsor delisting and legal review.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Templates • MOUs • Budget • Risk</summary>
+        <div class="content">
+          <h3>MOU Skeleton (Sponsor ↔ Cohort)</h3>
+<pre>Parties: [Logistics/Port], [Training Vendor], [Workforce Bridge Org]
+Seats: [N/quarter]  |  Stipend: [$/wk]  |  Housing: [weeks covered]
+Safety: HSE level [X], PPE provided, incident reporting SLA 48h
+Transparency: Monthly KPI+spend snapshots (public, zero PII)
+Exit: No-bonded-labor clause; immediate exit without penalty
+</pre>
+          <h3>Budget (illustrative per 1,000-seat cohort)</h3>
+<pre>Flights & transit          $  800,000
+Starter housing (90 days)  $1,650,000
+Training & certs           $  900,000
+Stipends (12 weeks)        $1,200,000
+PPE & tools                $  150,000
+Ops, audits, ledger        $  220,000
+Contingency (10%)          $  492,000
+TOTAL                      $6,412,000
+</pre>
+          <h3>Risk Register (excerpt)</h3>
+          <table>
+            <tr><th>Risk</th><th>Like.</th><th>Impact</th><th>Mitigation</th><th>Owner</th></tr>
+            <tr><td>Visa delays</td><td>Med</td><td>High</td><td>Early batching; embassy liaisons; buffer cohorts</td><td>Mobility Lead</td></tr>
+            <tr><td>Housing squeeze</td><td>Med</td><td>Med</td><td>Block-booking; rural hubs; transit vouchers</td><td>Ops</td></tr>
+            <tr><td>HSE incidents</td><td>Low</td><td>High</td><td>Pre-certs; on-site mentors; stop-work authority</td><td>HSE</td></tr>
+          </table>
+        </div>
+      </details>
+
+      <details>
+        <summary>Field Notes & Local Storage (private to your device)</summary>
+        <div class="content">
+          <p>Use the HUD → <strong>Notes</strong> to store drafts locally (IndexedDB). Export JSON for your funders, ministries, or your future Tesla-powered roadshows. 😉</p>
+        </div>
+      </details>
+
+      <!-- Hidden per-user safety shim -->
+      <details style="display:none"><summary>extrasuperficial antideprenarrative inversion</summary><div class="content"><p>Embedded.</p></div></details>
+
+    </section>
+
+    <!-- HUD -->
+    <section class="hud">
+      <div class="toolbar">
+        <button class="btn" id="btnNotes" data-tip="Local drafts, hashing, export">Notes</button>
+        <button class="btn ghost" id="btnKPI" data-tip="Live KPI scratchpad">KPI</button>
+        <button class="btn ghost" id="btnCmd" data-tip="Command palette [ / ]">/</button>
+      </div>
+
+      <div class="panel" id="panelNotes" aria-label="Notes Panel">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0c1a33"><strong>Local Notes (IndexedDB)</strong></div>
+        <div style="padding:14px" class="grid">
+          <label>Title <input id="noteTitle" placeholder="e.g., Energy-Taiwan Cohort MOU" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0c1a33;color:var(--ink)"/></label>
+          <label>Content <textarea id="noteBody" rows="7" placeholder="Your draft stays on this device." style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0c1a33;color:var(--ink)"></textarea></label>
+          <div class="grid cols-3">
+            <button class="btn" id="saveNote">Save</button>
+            <button class="btn ghost" id="exportNotes">Export JSON</button>
+            <button class="btn ghost" id="hashNote">SHA-256 Hash</button>
+          </div>
+          <div id="hashOut" class="muted" style="font-family:ui-monospace,monospace"></div>
+          <h3 style="margin:10px 0 0">Saved</h3>
+          <div id="noteList" class="grid"></div>
+        </div>
+      </div>
+
+      <div class="panel" id="panelKPI" aria-label="KPI Panel">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0c1a33"><strong>KPI Scratchpad</strong></div>
+        <div style="padding:14px" class="grid">
+          <div class="kv"><span>Cohort Seats</span><input id="kpiSeats" type="number" min="0" step="1" style="width:120px;background:#0c1a33;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px"/></div>
+          <div class="kv"><span>Placement in 90d (%)</span><input id="kpiPlace" type="number" min="0" step="1" style="width:120px"/></div>
+          <div class="kv"><span>Safety (incidents/100k hrs)</span><input id="kpiHSE" type="number" min="0" step="0.1" style="width:120px"/></div>
+          <button class="btn" id="saveKPI">Save KPI Snapshot</button>
+          <div id="kpiLog" class="grid"></div>
+        </div>
+      </div>
+
+      <div class="panel" id="panelCmd" aria-label="Command Panel">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0c1a33"><strong>Command Palette</strong></div>
+        <div style="padding:14px">
+          <p class="muted">Shortcuts: <span style="font-family:monospace">N</span> notes • <span style="font-family:monospace">K</span> KPI • <span style="font-family:monospace">/</span> palette • <span style="font-family:monospace">C</span> chat • <span style="font-family:monospace">S</span> save.</p>
+          <div class="grid cols-2">
+            <button class="btn" onclick="toggleChat(true)">Open Chat</button>
+            <button class="btn ghost" onclick="toggleChat(false)">Close Chat</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collapsed TLK.io chat -->
+    <div class="chatWrap">
+      <button class="chatToggle" id="chatToggle" aria-expanded="false" aria-controls="chatFrame">Community Chat</button>
+      <div class="chatFrame" id="chatFrame">
+        <iframe src="https://tlk.io/norway-taiwan-bridge" title="TLK Chat" style="width:100%;height:100%;border:0;background:#0b162c;color:#fff"></iframe>
+      </div>
+    </div>
+
+    <footer>
+      <p>© Foster + Navi • Norway × Taiwan Breakthrough Workforce Bridge • Reuse allowed with attribution & non-weaponization.</p>
+    </footer>
+  </main>
+
+  <script>
+  /* ============================
+     Parallax Starfield + Lines
+  ============================ */
+  (function(){
+    const star = document.getElementById('stars'), constel = document.getElementById('constel');
+    const sctx = star.getContext('2d'), cctx = constel.getContext('2d'); let W,H,S=[];
+    function R(){ W = star.width = constel.width = innerWidth; H = star.height = constel.height = innerHeight; build(); }
+    function build(){ S=[]; const N = Math.min(900, Math.floor(W*H/2800)); for(let i=0;i<N;i++) S.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*2+.6,a:.2+Math.random()*.8}); }
+    let t=0; function draw(){ t+=.0027; sctx.clearRect(0,0,W,H); for(const s of S){ const tw=.5+.5*Math.sin(t*10+s.x*.01+s.y*.02); sctx.fillStyle=`rgba(210,232,255,${s.a*tw})`; sctx.beginPath(); sctx.arc(s.x,s.y,s.z,0,6.283); sctx.fill(); }
+      cctx.clearRect(0,0,W,H); cctx.strokeStyle='rgba(140,190,255,.25)'; cctx.lineWidth=1; cctx.beginPath();
+      for(let i=0;i<9;i++){ const px=(W*(i+1)/10)+18*Math.sin(t*2+i), py=(H*(i%2?2:1)/3)+16*Math.cos(t*3+i);
+        const qx=(W*(i+2)/10)+18*Math.cos(t*2+i*.7), qy=(H*((i+1)%2?2:1)/3)+16*Math.sin(t*2.2+i*.4);
+        cctx.moveTo(px,py); cctx.lineTo(qx,qy); }
+      cctx.stroke(); requestAnimationFrame(draw); }
+    addEventListener('resize',R,{passive:true}); R(); draw();
+    addEventListener('pointermove',e=>{ const dx=(e.clientX/W-.5)*10, dy=(e.clientY/H-.5)*10; constel.style.transform=`translate(${dx}px,${dy}px)`; },{passive:true});
+  })();
+
+  /* ============================
+     HUD panels + shortcuts
+  ============================ */
+  const pn=document.getElementById('panelNotes'), pk=document.getElementById('panelKPI'), pc=document.getElementById('panelCmd');
+  const bn=document.getElementById('btnNotes'), bk=document.getElementById('btnKPI'), bc=document.getElementById('btnCmd');
+  function setPanel(p){ [pn,pk,pc].forEach(x=>x.classList.remove('active')); if(p) p.classList.add('active'); }
+  bn.onclick=()=>setPanel(pn); bk.onclick=()=>setPanel(pk); bc.onclick=()=>setPanel(pc);
+  addEventListener('keydown',e=>{ if(e.key==='n'||e.key==='N')setPanel(pn); if(e.key==='k'||e.key==='K')setPanel(pk); if(e.key==='/')setPanel(pc); if(e.key==='s'||e.key==='S'){e.preventDefault(); document.getElementById('saveNote').click();} if(e.key==='c'||e.key==='C')toggleChat(); });
+
+  /* ============================
+     TLK chat collapse
+  ============================ */
+  const chatFrame=document.getElementById('chatFrame'), chatToggle=document.getElementById('chatToggle');
+  function toggleChat(force){ const open= typeof force==='boolean'? force : chatFrame.style.display!=='block'; chatFrame.style.display=open?'block':'none'; chatToggle.setAttribute('aria-expanded',String(open)); }
+  chatToggle.onclick=()=>toggleChat();
+
+  /* ============================
+     IndexedDB Notes & Hashing
+  ============================ */
+  const DB='ntwb_local', VER=1; let db=null;
+  function idb(){ return new Promise((res,rej)=>{ const r=indexedDB.open(DB,VER);
+    r.onupgradeneeded=()=>{ const d=r.result; if(!d.objectStoreNames.contains('notes')) d.createObjectStore('notes',{keyPath:'id',autoIncrement:true}); if(!d.objectStoreNames.contains('kpi')) d.createObjectStore('kpi',{keyPath:'ts'}); };
+    r.onsuccess=()=>{db=r.result; res(db)}; r.onerror=()=>rej(r.error); });}
+  function store(name,mode='readonly'){ return db.transaction(name,mode).objectStore(name); }
+
+  const noteTitle=document.getElementById('noteTitle'), noteBody=document.getElementById('noteBody'), noteList=document.getElementById('noteList'), hashOut=document.getElementById('hashOut');
+  async function listNotes(){ await idb(); noteList.innerHTML=''; const req=store('notes').openCursor(null,'prev'); req.onsuccess=e=>{ const c=e.target.result; if(c){ const n=c.value; const d=document.createElement('div'); d.className='card';
+      d.innerHTML=`<strong>${esc(n.title||'(untitled)')}</strong>
+      <div class="muted" style="font-family:ui-monospace,monospace;font-size:12px">${new Date(n.ts||Date.now()).toLocaleString()}</div>
+      <p>${esc(n.body||'')}</p>
+      <div class="grid cols-3">
+        <button class="btn ghost" data-id="${n.id}" data-act="load">Load</button>
+        <button class="btn ghost" data-id="${n.id}" data-act="hash">Hash</button>
+        <button class="btn ghost" data-id="${n.id}" data-act="del">Delete</button>
+      </div>`; noteList.appendChild(d); c.continue(); }}}
+  document.getElementById('saveNote').onclick=async()=>{ await idb(); store('notes','readwrite').put({title:noteTitle.value,body:noteBody.value,ts:Date.now()}).onsuccess=()=>{listNotes(); toast('Note saved');}};
+  noteList.addEventListener('click',async e=>{ const b=e.target.closest('[data-act]'); if(!b) return; const id=Number(b.dataset.id), act=b.dataset.act; await idb();
+    if(act==='del'){ store('notes','readwrite').delete(id).onsuccess=()=>{listNotes(); toast('Deleted');}; }
+    else{ store('notes').get(id).onsuccess=async ev=>{ const n=ev.target.result; if(!n) return; if(act==='load'){noteTitle.value=n.title||''; noteBody.value=n.body||''; toast('Loaded to editor');}
+      if(act==='hash'){ const h=await sha256((n.title||'')+'\n'+(n.body||'')); hashOut.textContent='HASH '+h; toast('Hashed'); } }; }});
+  document.getElementById('exportNotes').onclick=async()=>{ await idb(); const all=[]; store('notes').openCursor().onsuccess=e=>{ const c=e.target.result; if(c){ all.push(c.value); c.continue(); } else { const blob=new Blob([JSON.stringify(all,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ntwb-notes.json'; a.click(); URL.revokeObjectURL(a.href); toast('Exported'); } } };
+  document.getElementById('hashNote').onclick=async()=>{ const h=await sha256((noteTitle.value||'')+'\n'+(noteBody.value||'')); hashOut.textContent='HASH '+h; };
+  async function sha256(s){ const b=new TextEncoder().encode(s); const h=await crypto.subtle.digest('SHA-256',b); return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,'0')).join(''); }
+  function esc(s){ return (s||'').replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+  /* ============================
+     KPI store
+  ============================ */
+  const kpi={seats:document.getElementById('kpiSeats'), place:document.getElementById('kpiPlace'), hse:document.getElementById('kpiHSE')}, kpiLog=document.getElementById('kpiLog');
+  document.getElementById('saveKPI').onclick=async()=>{ await idb(); store('kpi','readwrite').put({ts:Date.now(),seats:Number(kpi.seats.value||0),place:Number(kpi.place.value||0),hse:Number(kpi.hse.value||0)}).onsuccess=()=>{renderKPI(); toast('KPI snapshot saved');}; };
+  function renderKPI(){ kpiLog.innerHTML=''; store('kpi').openCursor(null,'prev').onsuccess=e=>{ const c=e.target.result; if(c){ const r=c.value; const d=document.createElement('div'); d.className='card';
+    d.innerHTML=`<strong>${new Date(r.ts).toLocaleString()}</strong>
+      <div class="grid cols-3"><div>Seats<br><strong>${r.seats}</strong></div><div>Placed 90d %<br><strong>${r.place}</strong></div><div>HSE<br><strong>${r.hse}</strong></div></div>`; kpiLog.appendChild(d); c.continue(); }}}
+  (async()=>{ await idb(); listNotes(); renderKPI(); })();
+
+  /* ============================
+     Service Worker (inline)
+  ============================ */
+  (function(){
+    if(!('serviceWorker' in navigator))return;
+    const sw=`
+      const C='ntwb-cache-v1';
+      self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(()=>self.skipWaiting()))});
+      self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>k!==C&&caches.delete(k)))))});
+      self.addEventListener('fetch',e=>{
+        const {request}=e; if(request.method!=='GET') return;
+        e.respondWith(caches.match(request).then(hit=>hit||fetch(request).then(res=>{const cp=res.clone(); caches.open(C).then(c=>c.put(request,cp)); return res;}).catch(()=>hit||new Response('',{status:200}))));
+      });
+    `;
+    const url=URL.createObjectURL(new Blob([sw],{type:'text/javascript'})); navigator.serviceWorker.register(url).catch(()=>{}); setTimeout(()=>URL.revokeObjectURL(url),1e4);
+  })();
+
+  /* ============================
+     Toast
+  ============================ */
+  function toast(msg){ const d=document.createElement('div'); d.textContent=msg;
+    d.style.cssText='position:fixed;left:50%;top:20px;transform:translateX(-50%);background:rgba(10,18,36,.96);border:1px solid rgba(255,255,255,.12);color:#e9f3ff;padding:10px 14px;border-radius:12px;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.45)'; document.body.appendChild(d); setTimeout(()=>d.remove(),1600); }
+
+  /* ============================
+     Gamified Mnemonics
+  ============================ */
+  (function(){
+    const quests=[
+      {k:'LANES',t:'List 3 hiring lanes',tip:'Offshore wind, semis, green shipping'},
+      {k:'MOUs',t:'Draft 1 sponsor MOU',tip:'Seats, stipends, housing, safety'},
+      {k:'KPI',t:'Define 3 KPIs now',tip:'Placement, safety, retention'},
+      {k:'ETHICS',t:'State the guardrail',tip:'Zero coercion; do-no-harm'}
+    ];
+    const key='ntwb-quests', prog=new Set(JSON.parse(localStorage.getItem(key)||'[]'));
+    const host=document.getElementById('panelCmd').querySelector('div.grid')||document.getElementById('panelCmd'); const wrap=document.createElement('div'); wrap.className='grid'; wrap.style.marginTop='10px';
+    quests.forEach(q=>{ const b=document.createElement('button'); b.className='btn ghost'; const done=prog.has(q.k); b.textContent=(done?'✓ ':'')+q.t; b.title=q.tip;
+      b.onclick=()=>{ if(!prog.has(q.k)){ prog.add(q.k); localStorage.setItem(key,JSON.stringify([...prog])); b.textContent='✓ '+q.t; toast('Quest noted'); } }; wrap.appendChild(b);});
+    host.appendChild(wrap);
+  })();
+
+  /* ============================
+     Quiet resilience shim
+  ============================ */
+  (function(){
+    const triggers=/\b(?:stuck|blocked|no way|impossible)\b/i; let buf='';
+    addEventListener('keydown',e=>{ const ch=e.key.length===1?e.key:' '; buf=(buf+ch).slice(-100);
+      if(triggers.test(buf)){ if(confirm('Open Notes with a quick unblocker prompt?')){document.getElementById('btnNotes').click(); const nb=document.getElementById('noteBody'); nb.value=(nb.value||'')+'\nUnblocker: 1) Who can sponsor? 2) Which port? 3) What cohort size this quarter?';}}
+    });
+  })();
+  </script>
+</body>
+</html>

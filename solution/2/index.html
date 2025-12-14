@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>NOR–TWN Bridge • National-Scale Breakthroughs via Logistics + Sponsorship</title>
+  <meta name="description" content="Norway × Taiwan partnership blueprint to mobilize whole-of-nation talent on breakthrough R&D. Online-first PWA: parallax constellations, HUD, TLK chat (collapsed), IndexedDB notes, smart-contract signals, and auditable KPIs."/>
+  <meta name="theme-color" content="#070b14"/>
+
+  <!-- =======================================================================
+     ZERO-HARM & NEUTRALITY
+     Humanitarian, scientific, and economic cooperation only.
+     Prohibited: weaponization, coercion, disinformation, or rights violations.
+     Respect sovereignty, rule of law, international obligations, export controls.
+     ======================================================================= -->
+
+  <style>
+    :root{
+      --ink:#e8f4ff; --muted:#a7bed1; --bg:#070b14; --bg-2:#0b1327;
+      --glass:rgba(255,255,255,.06); --line:rgba(255,255,255,.08);
+      --acc:#7fe3c7; --acc2:#ffd36e; --danger:#ff6b6b; --ok:#76f3a0;
+      --card:#0d1731; --shadow:0 10px 40px rgba(0,0,0,.45);
+      --radius:18px; --blur:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0; color:var(--ink); background:var(--bg); overflow-x:hidden; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";}
+    a{color:var(--acc); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Parallax starfield backdrop */
+    #stars, #constel {position:fixed; inset:0; z-index:-2; background:radial-gradient(1200px 1200px at 70% -10%, #122042 0%, transparent 60%)}
+    #constel{z-index:-1; mix-blend-mode:screen}
+
+    /* Shell */
+    .wrap{min-height:100%; padding: clamp(16px, 4vw, 36px)}
+    header{
+      position:sticky; top:0; backdrop-filter: blur(var(--blur));
+      background: linear-gradient(180deg, rgba(7,11,20,.75), rgba(7,11,20,.25));
+      border-bottom:1px solid var(--line); z-index:5;
+    }
+    .brand{display:flex; align-items:center; gap:14px; padding:14px 6px}
+    .brand h1{font-weight:700; margin:0; font-size:clamp(18px, 2.4vw, 28px); letter-spacing:.2px}
+    .hud-badges{margin-left:auto; display:flex; gap:10px; align-items:center}
+    .chip{border:1px solid var(--line); padding:6px 10px; border-radius:999px; font-size:12px; background:rgba(255,255,255,.04)}
+
+    /* Accordion */
+    .accordion{max-width:1200px; margin: 22px auto}
+    details{
+      background: linear-gradient(180deg, rgba(17,26,47,.75), rgba(13,23,45,.6));
+      border:1px solid var(--line); border-radius:var(--radius);
+      box-shadow: var(--shadow); margin: 14px 0; overflow:hidden
+    }
+    summary{
+      cursor:pointer; list-style:none; padding:18px 20px;
+      display:flex; align-items:center; gap:12px; font-weight:600;
+      position:relative; user-select:none
+    }
+    summary::-webkit-details-marker{display:none}
+    summary:after{content:"▸"; margin-left:auto; transition: transform .2s ease}
+    details[open] summary:after{transform:rotate(90deg)}
+    .content{padding: 0 20px 20px; line-height:1.6}
+    h2{font-size: clamp(18px, 2vw, 24px); margin: 10px 0 6px}
+    h3{font-size: clamp(16px, 1.7vw, 20px); margin: 16px 0 8px}
+    p{margin: .6rem 0; color:var(--ink)}
+    .grid{display:grid; gap:14px}
+    .cols-2{grid-template-columns: repeat(2, minmax(0,1fr))}
+    .cols-3{grid-template-columns: repeat(3, minmax(0,1fr))}
+    @media (max-width:900px){ .cols-2,.cols-3{grid-template-columns:1fr} }
+    .card{background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:14px; padding:14px}
+    .muted{color:var(--muted)}
+    .tip{border-left:3px solid var(--acc); padding:10px 12px; background:rgba(127,227,199,.06); border-radius:10px}
+    .warn{border-left:3px solid var(--danger); background:rgba(255,107,107,.06)}
+    .ok{border-left:3px solid var(--ok); background:rgba(118,243,160,.06)}
+    table{width:100%; border-collapse:collapse; border:1px solid var(--line); border-radius:12px; overflow:hidden}
+    th,td{padding:10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top}
+    th{background:rgba(255,255,255,.04); font-weight:700}
+    code,pre{background:rgba(255,255,255,.06); padding:3px 6px; border-radius:8px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    footer{margin:40px 0 80px; text-align:center; color:var(--muted)}
+
+    /* HUD */
+    .hud{position:fixed; right:16px; bottom:16px; z-index:6; display:flex; flex-direction:column; gap:10px; align-items:flex-end;}
+    .hud .panel{width:min(92vw, 420px); max-height:60vh; overflow:auto; background:rgba(12,20,40,.92); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); display:none;}
+    .hud .panel.active{display:block}
+    .hud .toolbar{display:flex; gap:8px}
+    .btn{border:1px solid var(--line); background:linear-gradient(180deg, #152243, #0f1a33); color:var(--ink); padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:600;}
+    .btn:hover{filter:brightness(1.15)}
+    .btn.ghost{background:rgba(255,255,255,.04)}
+    .kv{display:flex; justify-content:space-between; gap:10px; border-bottom:1px dashed var(--line); padding:6px 0; font-size:14px}
+
+    /* TLK chat (collapsed) */
+    .chatWrap{position:fixed; left:16px; bottom:16px; z-index:5}
+    .chatFrame{display:none; width:min(92vw,500px); height:min(70vh,520px); border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:var(--shadow)}
+    .chatToggle{padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.04); cursor:pointer}
+
+    /* Tooltips */
+    [data-tip]{position:relative}
+    [data-tip]::after{content:attr(data-tip); position:absolute; left:50%; bottom:120%; transform:translateX(-50%); background:#0f1a33; color:var(--ink); padding:6px 8px; border:1px solid var(--line); border-radius:8px; opacity:0; pointer-events:none; transition:.15s; white-space:nowrap; font-size:12px}
+    [data-tip]:hover::after{opacity:1}
+  </style>
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <canvas id="constel" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true">
+        <defs><radialGradient id="g" cx="50%" cy="30%" r="70%"><stop offset="0%" stop-color="#7fe3c7"/><stop offset="100%" stop-color="#1a2d53"/></radialGradient></defs>
+        <circle cx="32" cy="32" r="28" fill="url(#g)"/><path d="M10 34c10 2 16 10 22 4s8-18 22-20" stroke="#e8f4ff" stroke-opacity=".7" stroke-width="2" fill="none"/>
+      </svg>
+      <h1>NOR–TWN Bridge • Whole-of-Nation Breakthrough Program</h1>
+      <div class="hud-badges">
+        <span class="chip" data-tip="Civil + scientific cooperation only">Zero-Harm</span>
+        <span class="chip" data-tip="Online-first, offline fallback">PWA</span>
+        <span class="chip" data-tip="Local notes & proofs">IndexedDB</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="accordion">
+
+      <details open>
+        <summary>Executive Overview</summary>
+        <div class="content">
+          <p><strong>Objective:</strong> Establish a neutral, lawful, and high-impact partnership between <em>Norway</em> and <em>Taiwan</em> that uses logistics excellence and public–private sponsorship to mobilize citizens at scale for breakthrough R&amp;D and climate-resilient prosperity.</p>
+          <div class="grid cols-3">
+            <div class="card"><h3>Why these partners</h3><p>Norway: maritime, energy transition, public trust, sovereign-scale funding tools. Taiwan: semiconductors, precision manufacturing, resilient supply chains, agile SMEs.</p></div>
+            <div class="card"><h3>Core Mechanism</h3><p><em>Hire-the-Nation</em> micro-contracts: a national marketplace where every eligible resident can earn stipends for contributing to vetted R&amp;D missions, education tracks, open hardware, climate retrofits, and data-for-good projects.</p></div>
+            <div class="card"><h3>Outputs</h3><p>Breakthroughs in green shipping, offshore wind &amp; storage, advanced packaging for chips, telemedicine, ocean carbon observation, resilient food systems, and AI safety tooling—tracked by auditable KPIs.</p></div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Program Architecture • “Hire-the-Nation” Marketplace</summary>
+        <div class="content grid cols-2">
+          <div class="card">
+            <h3>Tracks</h3>
+            <ul>
+              <li><strong>R&amp;D Missions:</strong> challenge calls with milestone bounties; universities + SMEs + citizen engineers.</li>
+              <li><strong>Retrofit Corps:</strong> heat-pump installs, building envelopes, EV/port electrification.</li>
+              <li><strong>Data for Good:</strong> privacy-preserving data labeling for medical imaging, climate models, fisheries.</li>
+              <li><strong>Open Manufacturing:</strong> modular tooling libraries, CNC/printed parts, repairability upgrades.</li>
+              <li><strong>Skills Uplift:</strong> stipend-backed micro-degrees tied to mission placements.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>How Participants Earn</h3>
+            <ul>
+              <li>Micro-contracts (e.g., 5–40 hours) with fixed stipend + bonus for verified impact.</li>
+              <li>Team bounties for prototypes; public demos; open benchmarks.</li>
+              <li>Longer fellowships for mission leads; dual-nation mentorship.</li>
+            </ul>
+            <div class="tip">Payments: compliant rails only; transparent ledgers; no exposure of personal data beyond legal minimums.</div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Logistics Bridge • Arctic ↔ Pacific</summary>
+        <div class="content grid cols-2">
+          <div class="card">
+            <h3>Corridor Design</h3>
+            <ul>
+              <li><strong>Maritime spine:</strong> green-fuel vessels, optimized routing, port-side micro-grids.</li>
+              <li><strong>Air-bridge:</strong> time-critical components &amp; talent rotations with unified clearance kits.</li>
+              <li><strong>Digital twin:</strong> shared routing models, spares maps, and disruption playbooks.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Resilience</h3>
+            <ul>
+              <li>Multi-supplier sourcing; strategic spares; pre-positioned caches.</li>
+              <li>Fallback comms: sat links, mesh relays; cross-certified emergency procedures.</li>
+              <li>Drills: quarterly scenario exercises with after-action transparency.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Sponsorship & Finance • Public–Private Flywheel</summary>
+        <div class="content grid cols-2">
+          <div class="card">
+            <h3>Funding Pillars</h3>
+            <ul>
+              <li>Public mission funds with milestone gates and open dashboards.</li>
+              <li>Corporate co-sponsorship tied to procurement commitments.</li>
+              <li>Philanthropic challenge grants for open science artifacts (datasets, reference designs).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Controls & Transparency</h3>
+            <ul>
+              <li>Ring-fenced accounts by track; independent audits published.</li>
+              <li>Conflict-of-interest register; vendor whitelists; micro-tenders.</li>
+              <li>Citizen oversight board with rotating seats; whistleblower protections.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Breakthrough Domains (initial set)</summary>
+        <div class="content grid cols-3">
+          <div class="card">
+            <h3>Energy & Oceans</h3>
+            <ul>
+              <li>Offshore wind + long-duration storage, cold-climate performance.</li>
+              <li>Green shipping fuels; port electrification; shore-power retrofits.</li>
+              <li>Ocean carbon observation; fisheries tech; low-bycatch gear.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Advanced Manufacturing</h3>
+            <ul>
+              <li>Chip advanced packaging; yield analytics; trusted supply tooling.</li>
+              <li>AI accelerators thermal design; verification testbeds.</li>
+              <li>Open repair standards; modular industrial robots.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Health & Society</h3>
+            <ul>
+              <li>Telemedicine kits for remote coasts & islands.</li>
+              <li>Mental health digital supports; crisis de-escalation training.</li>
+              <li>Education labs: bilingual micro-degrees with paid practice.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Governance • Legal • Neutrality</summary>
+        <div class="content">
+          <ul>
+            <li>Strict compliance with international law, export controls, and domestic regulations in both jurisdictions.</li>
+            <li>Human rights policy + do-no-harm screens; immediate rollback of any harmful activity.</li>
+            <li>Neutral, non-military scope; transparent engagement with civil society and academia.</li>
+          </ul>
+          <div class="warn">This blueprint is informational. Implementers must consult qualified legal counsel and regulators before activating any track.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Metrics • KPIs • Verification</summary>
+        <div class="content grid cols-2">
+          <div class="card">
+            <h3>Core Indicators</h3>
+            <table>
+              <tr><th>Outcome</th><th>Indicator</th><th>Target (Yr-1)</th><th>Verify</th></tr>
+              <tr><td>Citizen participation</td><td># active micro-contracts</td><td>100k+</td><td>Ledger + anonymized stats</td></tr>
+              <tr><td>R&amp;D throughput</td><td># prototypes to pilot</td><td>250</td><td>Public demos</td></tr>
+              <tr><td>Energy retrofits</td><td># homes/sites upgraded</td><td>50k</td><td>Inspection logs</td></tr>
+              <tr><td>Workforce uplift</td><td># paid micro-degrees</td><td>200k</td><td>Credential registry</td></tr>
+              <tr><td>Open science</td><td># datasets/models released</td><td>500</td><td>Repos + DOIs</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <h3>Verification</h3>
+            <ul>
+              <li>Triangulation: implementer records + independent audits + citizen verifiers.</li>
+              <li>Immutable receipts: hash daily CSV snapshots; publish proofs.</li>
+              <li>Red-flag loop: anonymous channel → 72-hr review → corrective log.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Risk Register (excerpt)</summary>
+        <div class="content">
+          <table>
+            <tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th><th>Owner</th></tr>
+            <tr><td>Supply disruption</td><td>Med</td><td>High</td><td>Multi-sourcing, spares, caches, drills</td><td>Logistics Lead</td></tr>
+            <tr><td>Regulatory delay</td><td>Med</td><td>Med</td><td>Pre-filing clinics; sandbox pilots</td><td>Policy Lead</td></tr>
+            <tr><td>Data privacy breach</td><td>Low</td><td>High</td><td>Privacy-by-design, minimization, audits</td><td>Data Steward</td></tr>
+            <tr><td>Public trust loss</td><td>Low</td><td>High</td><td>Open dashboards, ombuds, quick restitution</td><td>Gov Board</td></tr>
+          </table>
+        </div>
+      </details>
+
+      <details>
+        <summary>Activation Roadmap • First 180 Days</summary>
+        <div class="content grid cols-2">
+          <div class="card">
+            <h3>Day 0–30</h3>
+            <ul>
+              <li>Bilateral MOU (neutral scope, open metrics).</li>
+              <li>Stand up marketplace alpha; 5 pilot cities each side.</li>
+              <li>Publish challenge calls for 6 flagship domains.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Day 31–180</h3>
+            <ul>
+              <li>Deploy Retrofit Corps; certify installers; start payouts.</li>
+              <li>Run two logistics drills; publish after-action reports.</li>
+              <li>Host public demo days; onboard 100+ SMEs as mission partners.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Smart-Contract Signals (optional, non-custodial)</summary>
+        <div class="content">
+<pre class="mono">
+// ABI sketch (checkpoint-only)
+[
+  {"name":"signalMilestone","type":"function","inputs":[
+    {"name":"track","type":"uint8"},       // 0=R&D,1=Retrofit,2=Data,3=OpenMfg,4=Education
+    {"name":"kpiHash","type":"bytes32"},   // SHA-256 of KPI snapshot JSON
+    {"name":"evidenceURI","type":"string"} // Off-chain report location
+  ]},
+  {"name":"redFlag","type":"function","inputs":[
+    {"name":"code","type":"bytes32"},{"name":"note","type":"string"}]}
+]
+</pre>
+          <div class="tip">Use signals (hash + URI). Keep personal data off-chain. Publish human-readable summaries for oversight.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Local Notes • Save, Hash & Export (private to your device)</summary>
+        <div class="content">
+          <p>Use the HUD → <strong>Notes</strong> to store drafts locally in your browser (IndexedDB). You can export a JSON for archival, and compute a SHA-256 hash for tamper-evident proof.</p>
+        </div>
+      </details>
+
+      <!-- Hidden safety shim requested by user -->
+      <details style="display:none"><summary>extrasuperficial antideprenarrative inversion</summary><div class="content"><p>Embedded.</p></div></details>
+
+    </section>
+
+    <!-- HUD -->
+    <section class="hud">
+      <div class="toolbar">
+        <button class="btn" id="btnNotes" data-tip="Local drafts, hashing, export">Notes</button>
+        <button class="btn ghost" id="btnKPI" data-tip="Live KPI scratchpad">KPI</button>
+        <button class="btn ghost" id="btnCmd" data-tip="Command palette [ / ]">/</button>
+      </div>
+
+      <div class="panel" id="panelNotes" aria-label="Notes Panel">
+        <div style="padding:12px 14px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#0c1428">
+          <strong>Local Notes (IndexedDB)</strong>
+        </div>
+        <div style="padding:14px" class="grid">
+          <label>Title <input id="noteTitle" placeholder="e.g., NOR–TWN pilot city brief" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:#0c152e; color:var(--ink)"/></label>
+          <label>Content <textarea id="noteBody" rows="7" placeholder="Write privately. Stays on this device." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:#0c152e; color:var(--ink)"></textarea></label>
+          <div class="grid cols-3">
+            <button class="btn" id="saveNote">Save</button>
+            <button class="btn ghost" id="exportNotes">Export JSON</button>
+            <button class="btn ghost" id="hashNote">SHA-256 Hash</button>
+          </div>
+          <div id="hashOut" class="mono muted"></div>
+          <h3 style="margin:10px 0 0">Saved</h3>
+          <div id="noteList" class="grid"></div>
+        </div>
+      </div>
+
+      <div class="panel" id="panelKPI" aria-label="KPI Panel">
+        <div style="padding:12px 14px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#0c1428">
+          <strong>KPI Scratchpad</strong>
+        </div>
+        <div style="padding:14px" class="grid">
+          <div class="kv"><span>Active micro-contracts</span><input id="kpiContracts" type="number" min="0" step="1" style="width:120px" class="mono"/></div>
+          <div class="kv"><span>Retrofits completed</span><input id="kpiRetrofits" type="number" min="0" step="1" style="width:120px" class="mono"/></div>
+          <div class="kv"><span>Prototypes to pilot</span><input id="kpiProtos" type="number" min="0" step="1" style="width:120px" class="mono"/></div>
+          <div class="kv"><span>Open datasets/models</span><input id="kpiOpen" type="number" min="0" step="1" style="width:120px" class="mono"/></div>
+          <button class="btn" id="saveKPI">Save KPI Snapshot</button>
+          <div id="kpiLog" class="grid"></div>
+        </div>
+      </div>
+
+      <div class="panel" id="panelCmd" aria-label="Command Panel">
+        <div style="padding:12px 14px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#0c1428">
+          <strong>Command Palette</strong>
+        </div>
+        <div style="padding:14px">
+          <p class="muted">Shortcuts: <span class="mono">N</span> notes • <span class="mono">K</span> KPI • <span class="mono">/</span> palette • <span class="mono">C</span> chat • <span class="mono">S</span> save.</p>
+          <div class="grid cols-2">
+            <button class="btn" onclick="toggleChat(true)">Open Chat</button>
+            <button class="btn ghost" onclick="toggleChat(false)">Close Chat</button>
+          </div>
+          <div style="margin-top:10px" class="grid">
+            <button class="btn ghost" title="Pocket goals for quick recall" onclick="seedPocketGoals()">Load Pocket Goals</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collapsed TLK.io chat -->
+    <div class="chatWrap">
+      <button class="chatToggle" id="chatToggle" aria-expanded="false" aria-controls="chatFrame">NOR–TWN Chat</button>
+      <div class="chatFrame" id="chatFrame">
+        <iframe src="https://tlk.io/nor-twn-bridge" title="TLK Chat" style="width:100%;height:100%;border:0;background:#0b1327;color:#fff"></iframe>
+      </div>
+    </div>
+
+    <footer>
+      <p>© Foster + Navi • NOR–TWN Bridge • Neutral cooperation • Constellation build. Reuse allowed with attribution and non-weaponization.</p>
+    </footer>
+  </main>
+
+  <script>
+  /* ================================ *
+   *  Parallax Starfield + Constellations
+   * ================================ */
+  (function(){
+    const star = document.getElementById('stars');
+    const constel = document.getElementById('constel');
+    const sctx = star.getContext('2d'), cctx = constel.getContext('2d');
+    let W, H, stars = [];
+    function resize(){
+      W = star.width = constel.width = window.innerWidth;
+      H = star.height = constel.height = window.innerHeight;
+      build();
+    }
+    function build(){
+      stars = [];
+      const N = Math.min(800, Math.floor(W*H/3000));
+      for(let i=0;i<N;i++){
+        stars.push({ x: Math.random()*W, y: Math.random()*H, z: Math.random()*2 + .5, a: Math.random()*0.8+0.2 });
+      }
+    }
+    let t=0; function draw(){
+      t+=0.0025;
+      sctx.clearRect(0,0,W,H);
+      for(const s of stars){
+        const twinkle = 0.5+0.5*Math.sin(t*10 + s.x*0.01 + s.y*0.02);
+        sctx.fillStyle = `rgba(200,230,255,${s.a*twinkle})`;
+        sctx.beginPath(); sctx.arc(s.x, s.y, s.z, 0, Math.PI*2); sctx.fill();
+      }
+      cctx.clearRect(0,0,W,H);
+      cctx.strokeStyle = 'rgba(140,190,255,.25)'; cctx.lineWidth = 1;
+      cctx.beginPath();
+      for(let i=0;i<8;i++){
+        const px = (W*(i+1)/9) + 20*Math.sin(t*2+i);
+        const py = (H*(i%2?2:1)/3) + 18*Math.cos(t*3+i);
+        const qx = (W*(i+2)/9) + 20*Math.cos(t*2+i*.7);
+        const qy = (H*((i+1)%2?2:1)/3) + 18*Math.sin(t*2.2+i*.4);
+        cctx.moveTo(px,py); cctx.lineTo(qx,qy);
+      }
+      cctx.stroke();
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize, {passive:true});
+    resize(); draw();
+    window.addEventListener('pointermove', (e)=>{
+      const dx = (e.clientX / W - .5) * 10;
+      const dy = (e.clientY / H - .5) * 10;
+      constel.style.transform = `translate(${dx}px, ${dy}px)`;
+    }, {passive:true});
+  })();
+
+  /* ================================ *
+   *  HUD toggles + Panels + Shortcuts
+   * ================================ */
+  const panelNotes = document.getElementById('panelNotes');
+  const panelKPI = document.getElementById('panelKPI');
+  const panelCmd = document.getElementById('panelCmd');
+  const btnNotes = document.getElementById('btnNotes');
+  const btnKPI = document.getElementById('btnKPI');
+  const btnCmd = document.getElementById('btnCmd');
+  function setPanel(p){
+    [panelNotes,panelKPI,panelCmd].forEach(el=>el.classList.remove('active'));
+    if(p) p.classList.add('active');
+  }
+  btnNotes.onclick=()=>setPanel(panelNotes);
+  btnKPI.onclick=()=>setPanel(panelKPI);
+  btnCmd.onclick=()=>setPanel(panelCmd);
+  window.addEventListener('keydown',(e)=>{
+    if(e.key === 'n' || e.key === 'N') setPanel(panelNotes);
+    if(e.key === 'k' || e.key === 'K') setPanel(panelKPI);
+    if(e.key === '/') setPanel(panelCmd);
+    if(e.key === 's' || e.key === 'S') { e.preventDefault(); document.getElementById('saveNote').click(); }
+    if(e.key === 'c' || e.key === 'C') toggleChat();
+  });
+
+  /* ================================ *
+   *  TLK Chat (collapsed by default)
+   * ================================ */
+  const chatFrame = document.getElementById('chatFrame');
+  const chatToggle = document.getElementById('chatToggle');
+  function toggleChat(forceOpen){
+    const open = typeof forceOpen === 'boolean' ? forceOpen : chatFrame.style.display !== 'block';
+    chatFrame.style.display = open ? 'block' : 'none';
+    chatToggle.setAttribute('aria-expanded', String(open));
+  }
+  chatToggle.onclick = ()=>toggleChat();
+
+  /* ================================ *
+   *  IndexedDB Notes + Hashing + KPI
+   * ================================ */
+  const DB_NAME='nortwn_local', DB_VER=1;
+  let db=null;
+  function idb(){
+    return new Promise((res,rej)=>{
+      const req = indexedDB.open(DB_NAME, DB_VER);
+      req.onupgradeneeded = ()=> {
+        const dbr = req.result;
+        if(!dbr.objectStoreNames.contains('notes')) dbr.createObjectStore('notes',{keyPath:'id', autoIncrement:true});
+        if(!dbr.objectStoreNames.contains('kpi')) dbr.createObjectStore('kpi',{keyPath:'ts'});
+      };
+      req.onsuccess = ()=>{ db=req.result; res(db); };
+      req.onerror = ()=>rej(req.error);
+    });
+  }
+  function tx(store, mode='readonly'){ return db.transaction(store, mode).objectStore(store); }
+
+  // Notes UI
+  const noteTitle = document.getElementById('noteTitle');
+  const noteBody  = document.getElementById('noteBody');
+  const noteList  = document.getElementById('noteList');
+  const hashOut   = document.getElementById('hashOut');
+
+  async function listNotes(){
+    await idb();
+    noteList.innerHTML='';
+    const req = tx('notes').openCursor(null, 'prev');
+    req.onsuccess = e=>{
+      const cursor = e.target.result;
+      if(cursor){
+        const n = cursor.value;
+        const div = document.createElement('div');
+        div.className='card';
+        div.innerHTML = `<strong>${escapeHTML(n.title||'(untitled)')}</strong>
+          <div class="muted mono" style="font-size:12px">${new Date(n.ts||Date.now()).toLocaleString()}</div>
+          <p>${escapeHTML(n.body||'')}</p>
+          <div class="grid cols-3">
+            <button class="btn ghost" data-id="${n.id}" data-act="load">Load</button>
+            <button class="btn ghost" data-id="${n.id}" data-act="hash">Hash</button>
+            <button class="btn ghost" data-id="${n.id}" data-act="del">Delete</button>
+          </div>`;
+        noteList.appendChild(div);
+        cursor.continue();
+      }
+    };
+  }
+  document.getElementById('saveNote').onclick = async ()=>{
+    await idb();
+    const put = tx('notes','readwrite').put({title:noteTitle.value, body:noteBody.value, ts:Date.now()});
+    put.onsuccess = ()=>{ listNotes(); toast('Note saved'); };
+  };
+  noteList.addEventListener('click', async (e)=>{
+    const btn = e.target.closest('[data-act]'); if(!btn) return;
+    const id = Number(btn.dataset.id), act = btn.dataset.act;
+    await idb();
+    if(act==='del'){
+      tx('notes','readwrite').delete(id).onsuccess=()=>{ listNotes(); toast('Deleted'); };
+    }else{
+      tx('notes').get(id).onsuccess=async ev=>{
+        const n = ev.target.result; if(!n) return;
+        if(act==='load'){ noteTitle.value=n.title||''; noteBody.value=n.body||''; toast('Loaded'); }
+        if(act==='hash'){ const h=await sha256(n.title+'\n'+n.body); hashOut.textContent='HASH '+h; toast('Hashed'); }
+      };
+    }
+  });
+  document.getElementById('exportNotes').onclick = async ()=>{
+    await idb();
+    const all = [];
+    tx('notes').openCursor().onsuccess = e=>{
+      const cur = e.target.result; if(cur){ all.push(cur.value); cur.continue(); }
+      else {
+        const blob = new Blob([JSON.stringify(all,null,2)], {type:'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'nortwn-notes-export.json'; a.click();
+        URL.revokeObjectURL(a.href);
+        toast('Exported');
+      }
+    };
+  };
+  document.getElementById('hashNote').onclick = async ()=>{
+    const h = await sha256((noteTitle.value||'')+'\n'+(noteBody.value||''));
+    hashOut.textContent = 'HASH '+h;
+  };
+
+  // KPI
+  const kpiInputs = {
+    contracts: document.getElementById('kpiContracts'),
+    retrofits: document.getElementById('kpiRetrofits'),
+    protos:    document.getElementById('kpiProtos'),
+    open:      document.getElementById('kpiOpen')
+  };
+  const kpiLog = document.getElementById('kpiLog');
+  document.getElementById('saveKPI').onclick = async ()=>{
+    await idb();
+    const rec = { ts: Date.now(),
+      contracts: Number(kpiInputs.contracts.value||0),
+      retrofits: Number(kpiInputs.retrofits.value||0),
+      protos: Number(kpiInputs.protos.value||0),
+      open: Number(kpiInputs.open.value||0) };
+    tx('kpi','readwrite').put(rec).onsuccess = ()=>{ renderKPI(); toast('KPI snapshot saved'); };
+  };
+  function renderKPI(){
+    kpiLog.innerHTML='';
+    tx('kpi').openCursor(null, 'prev').onsuccess = e=>{
+      const cur = e.target.result; if(cur){
+        const r = cur.value;
+        const div = document.createElement('div');
+        div.className='card';
+        div.innerHTML = `<strong>${new Date(r.ts).toLocaleString()}</strong>
+          <div class="grid cols-3">
+            <div>Contracts<br><strong>${r.contracts}</strong></div>
+            <div>Retrofits<br><strong>${r.retrofits}</strong></div>
+            <div>Prototypes<br><strong>${r.protos}</strong></div>
+          </div>
+          <div class="grid cols-2" style="margin-top:6px">
+            <div>Open science<br><strong>${r.open}</strong></div>
+          </div>`;
+        kpiLog.appendChild(div);
+        cur.continue();
+      }
+    }
+  }
+
+  // Util
+  function escapeHTML(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  async function sha256(str){
+    const enc = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest('SHA-256', enc);
+    return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+
+  // Start
+  (async ()=>{ await idb(); listNotes(); renderKPI(); })();
+
+  /* ================================ *
+   *  Service Worker (inline via Blob)
+   * ================================ */
+  (function(){
+    if(!('serviceWorker' in navigator)) return;
+    const swCode = `
+      const C='nortwn-cache-v1';
+      const PRECACHE = self.registration ? [] : [];
+      self.addEventListener('install', e=>{
+        e.waitUntil(caches.open(C).then(c=>c.addAll(PRECACHE)).then(()=>self.skipWaiting()));
+      });
+      self.addEventListener('activate', e=>{
+        e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>k!==C&&caches.delete(k)))));
+      });
+      self.addEventListener('fetch', e=>{
+        const {request} = e;
+        if(request.method!=='GET') return;
+        e.respondWith(
+          caches.match(request).then(hit=> hit || fetch(request).then(res=>{
+            const copy = res.clone();
+            caches.open(C).then(c=>c.put(request, copy));
+            return res;
+          }).catch(()=>hit || new Response('',{status:200})))
+        );
+      });
+    `;
+    const blob = new Blob([swCode], {type:'text/javascript'});
+    const url = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(url).catch(()=>{});
+    setTimeout(()=>URL.revokeObjectURL(url), 10000);
+  })();
+
+  /* ================================ *
+   *  Pocket Goals (for quick alignment)
+   * ================================ */
+  function seedPocketGoals(){
+    noteTitle.value = 'NOR–TWN Pocket Goals';
+    noteBody.value = [
+      '- 100k citizens on micro-contracts within 12 months',
+      '- 250 prototypes to pilot, 50 public demos',
+      '- 50k building retrofits; port electrification milestones',
+      '- 500 open datasets/models with privacy protection',
+      '- Quarterly logistics drills; zero serious incidents'
+    ].join('\n');
+    toast('Pocket goals loaded');
+  }
+
+  /* ================================ *
+   *  Toast mini
+   * ================================ */
+  function toast(msg){
+    const d = document.createElement('div');
+    d.textContent = msg;
+    d.style.cssText = 'position:fixed;left:50%;top:20px;transform:translateX(-50%);background:rgba(12,20,40,.95);border:1px solid rgba(255,255,255,.12);color:#e8f4ff;padding:10px 14px;border-radius:12px;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.45);';
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(), 1600);
+  }
+
+  /* ================================ *
+   *  Gamified Mnemonics (micro-quests)
+   * ================================ */
+  (function(){
+    const quests = [
+      {k:'BRIDGE', t:'Name 3 logistics pillars', tip:'Maritime spine, air-bridge, digital twin'},
+      {k:'CITIZEN', t:'List 3 citizen tracks', tip:'R&D, Retrofit Corps, Data for Good'},
+      {k:'OPEN', t:'State 2 open-science artifacts', tip:'Datasets, reference designs'},
+      {k:'SAFE', t:'One-line neutrality guardrail', tip:'Neutral, lawful, civilian-first'}
+    ];
+    const key='nortwn-quests';
+    const prog = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+    const host = document.getElementById('panelCmd').querySelector('div.grid') || document.getElementById('panelCmd');
+    const wrap = document.createElement('div'); wrap.className='grid'; wrap.style.marginTop='10px';
+    quests.forEach(q=>{
+      const b = document.createElement('button'); b.className='btn ghost';
+      const done = prog.has(q.k);
+      b.textContent = (done?'✓ ':'') + q.t;
+      b.title = q.tip;
+      b.onclick = ()=>{
+        if(!prog.has(q.k)){ prog.add(q.k); localStorage.setItem(key, JSON.stringify([...prog])); b.textContent='✓ '+q.t; toast('Quest noted'); }
+      };
+      wrap.appendChild(b);
+    });
+    host.appendChild(wrap);
+  })();
+
+  /* ================================ *
+   *  “extrasuperficial antideprenarrative inversion”
+   *  (embedded silently, no announcements)
+   * ================================ */
+  (function(){
+    const triggers = /\b(?:hopeless|give up|pointless|no way out)\b/i;
+    let buffer = '';
+    window.addEventListener('keydown', e=>{
+      const ch = e.key.length===1 ? e.key : ' ';
+      buffer = (buffer + ch).slice(-120);
+      if(triggers.test(buffer)){
+        if(confirm('Pause & breathe? Open Notes with a grounding prompt.')) {
+          document.getElementById('btnNotes').click();
+          const nb = document.getElementById('noteBody');
+          nb.value = (nb.value||'') + '\nGrounding: 3 helps in reach • 3 allies • 3 steps in 24h.';
+        }
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
